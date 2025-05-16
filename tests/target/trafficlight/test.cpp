@@ -66,3 +66,20 @@ TEST(TrafficLightGroup, ButtonPressOnGreenToYellowThenRed)
     completeYellowTransitionToRed(3000);
     CHECK_EQUAL(RED, runTrafficLight());
 }
+
+TEST(TrafficLightGroup, ButtonPressOnYellowOrRed)
+{
+    // Start light at YELLOW
+    setTrafficLightState(YELLOW);
+    CHECK_EQUAL(YELLOW, runTrafficLight());
+
+    // Simulate the pedestrian button press during YELLOW
+    CHECK_FALSE(trafficLightButtonPressed(true, YELLOW));
+
+    // Start light at RED
+    setTrafficLightState(RED);
+    CHECK_EQUAL(RED, runTrafficLight());
+
+    // Simulate the pedestrian button press during RED
+    CHECK_FALSE(trafficLightButtonPressed(true, RED));
+}

@@ -7,7 +7,7 @@ void setTrafficLightState(traffic_light_state_t state)
 
 traffic_light_state_t runTrafficLight(void)
 {
-	return GREEN;
+	return RED;
 }
 
 bool trafficLightButtonPressed(void)

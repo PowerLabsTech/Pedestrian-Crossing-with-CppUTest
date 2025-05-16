@@ -42,3 +42,13 @@ bool trafficLightButtonPressed(void)
 {
     return false;
 }
+
+void startYellowTransition(void)
+{
+    
+}
+
+void completeYellowTransitionToRed(uint16_t yellowToRedDuration)
+{
+    
+}

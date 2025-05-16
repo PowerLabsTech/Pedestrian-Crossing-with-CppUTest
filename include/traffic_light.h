@@ -19,5 +19,7 @@ typedef enum
 void setTrafficLightState(traffic_light_state_t state);
 traffic_light_state_t runTrafficLight(void);
 bool trafficLightButtonPressed(void);
+void startYellowTransition(void);
+void completeYellowTransitionToRed(uint16_t yellowToRedDuration);
 
 #endif // TRAFFIC_LIGHT_H

@@ -3,6 +3,11 @@
 #include "CppUTest/TestHarness.h"
 #include "traffic_light.h"
 
+bool trafficLightButtonPressed(bool simulatePressed, traffic_light_state_t currentState)
+{
+    return false;
+}
+
 // Create a test group
 TEST_GROUP(TrafficLightGroup)
 {
@@ -34,5 +39,23 @@ TEST(TrafficLightGroup, CorrectLightTransitions)
     CHECK_EQUAL(YELLOW, runTrafficLight());
 
     setTrafficLightState(RED); // Transition: YELLOW should change to RED
+    CHECK_EQUAL(RED, runTrafficLight());
+}
+
+TEST(TrafficLightGroup, ButtonPressOnGreenToYellowThenRed)
+{
+    // Start the light at GREEN
+    setTrafficLightState(GREEN);
+    CHECK_EQUAL(GREEN, runTrafficLight());
+
+    // Simulate the pedestrian button press during GREEN
+    CHECK_TRUE(trafficLightButtonPressed(true, GREEN));
+
+    // On the next run, we expect a transition to YELLOW
+    startYellowTransition();
+    CHECK_EQUAL(YELLOW, runTrafficLight());
+
+    // Then the next run should bring it to RED
+    completeYellowTransitionToRed(3000);
     CHECK_EQUAL(RED, runTrafficLight());
 }

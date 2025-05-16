@@ -1,0 +1,71 @@
+# Workflow name
+name: Traffic Light Controller Workflow
+
+# Define the trigger event(s)
+on: 
+  push:
+    branches:
+      - "**"
+    tags:
+      - "v*.*.*"
+  pull_request:
+    branches:
+      - "**"
+
+# Jobs run in parallel by default, each runs steps in sequence
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        # 1: Checkout code
+        name: Checkout code
+        uses: actions/checkout@v3
+
+      -
+        # 2: Set up Docker for use in the workflow
+        name: Setup Docker BuildX
+        uses: docker/setup-buildx-action@v3
+
+      -
+        # 3: Build Docker image
+        name: Build Docker Image
+        run:  |
+          docker build --no-cache -t build-env -f ./ci-cd-tools/Dockerfile .
+        
+      - 
+        # If previous step fails
+        name: Run on build docker failure
+        if: failure()
+        run: echo "Docker Image failed to build."
+
+      -
+        # 4: Run the Docker container
+        name: Run Docker container
+        run:  |
+          docker run --name build_container build-env
+      - 
+        # If previous step fails
+        name: Run on run docker failure
+        if: failure()
+        run: echo "Docker Container failed to run."
+
+      -
+        # 5: Copy out .uf2 file (change the uf2 filename to yours)
+        name: Copy out .uf2 file
+        run:  |
+          docker cp build_container:/root/home/pedestrian_crossing/build/arm/pedestrian_crossing.uf2 ./pedestrian_crossing.uf2
+
+      -
+        # 6: Upload .uf2 file as artifact
+        name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pedestrian_crossing-uf2
+          path: ./pedestrian_crossing.uf2
+
+      -
+        # 7: Remove the Docker container
+        name: Remove Docker Container
+        run: |
+          docker rm build_container

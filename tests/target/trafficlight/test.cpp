@@ -108,3 +108,10 @@ TEST(TrafficLightGroup, NoDirectJumps)
     // Expect that the system does not transition to YELLOW.
     CHECK_EQUAL(RED, runTrafficLight());
 }
+
+TEST(TrafficLightGroup, RedtoGreenLimits)
+{
+    CHECK_EQUAL(MIN_LIMIT, holdOnBeforeGreen(0));
+    CHECK_EQUAL(30000, holdOnBeforeGreen(30000));
+    CHECK_EQUAL(MAX_LIMIT, holdOnBeforeGreen(61000));
+}

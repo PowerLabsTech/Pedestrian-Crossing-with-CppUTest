@@ -89,3 +89,8 @@ void completeYellowTransitionToRed(uint16_t yellowToRedDuration)
     sleep_ms(yellowToRedDuration);
     setTrafficLightState(RED);
 }
+
+uint16_t holdOnBeforeGreen(uint16_t redToGreenDuration)
+{
+    return 0;
+}

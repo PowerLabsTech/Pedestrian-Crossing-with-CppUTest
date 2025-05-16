@@ -8,6 +8,8 @@
 #define GREEN_LED_PIN 21
 #define YELLOW_LED_PIN 22
 #define BUTTON_PIN 5
+#define MIN_LIMIT 10000
+#define MAX_LIMIT 60000
 
 typedef enum
 {
@@ -21,5 +23,6 @@ traffic_light_state_t runTrafficLight(void);
 bool trafficLightButtonPressed(void);
 void startYellowTransition(void);
 void completeYellowTransitionToRed(uint16_t yellowToRedDuration);
+uint16_t holdOnBeforeGreen(uint16_t redToGreenDuration);
 
 #endif // TRAFFIC_LIGHT_H

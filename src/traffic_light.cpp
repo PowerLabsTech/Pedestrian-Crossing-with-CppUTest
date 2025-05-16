@@ -4,10 +4,29 @@ static traffic_light_state_t currentState = RED;
 static traffic_light_state_t nextState = currentState;
 static bool buttonPressed = false;
 
+/*
+    The system will transition to <state> only if <state> is the expected next state as defined in the requirement (RED → GREEN → YELLOW → RED).
+*/
 void setTrafficLightState(traffic_light_state_t state)
 {
-    nextState = state;
-    runTrafficLight();
+    traffic_light_state_t previousState;
+    switch(state)
+    {
+        case RED:
+            previousState = YELLOW;
+            break;
+        case YELLOW:
+            previousState = GREEN;
+            break;
+        case GREEN:
+            previousState = RED;
+            break;
+    }
+    if (currentState == previousState)
+    {
+        nextState = state;
+        runTrafficLight();
+    }
 }
 
 /*

@@ -21,3 +21,18 @@ TEST(TrafficLightGroup, InitialStateIsRed)
 {
     CHECK_EQUAL(RED, runTrafficLight()); // This checks that the traffic light starts in RED.
 }
+
+TEST(TrafficLightGroup, CorrectLightTransitions)
+{
+    // The light should start in RED
+    CHECK_EQUAL(RED, runTrafficLight());
+
+    setTrafficLightState(GREEN); // Transition: RED should change to GREEN
+    CHECK_EQUAL(GREEN, runTrafficLight());
+
+    setTrafficLightState(YELLOW); // Transition: GREEN should change to YELLOW
+    CHECK_EQUAL(YELLOW, runTrafficLight());
+
+    setTrafficLightState(RED); // Transition: YELLOW should change to RED
+    CHECK_EQUAL(RED, runTrafficLight());
+}

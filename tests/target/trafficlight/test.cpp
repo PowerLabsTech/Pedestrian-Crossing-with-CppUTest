@@ -16,3 +16,8 @@ TEST_GROUP(TrafficLightGroup)
         // Deinitialize after each test
     }
 };
+
+TEST(TrafficLightGroup, InitialStateIsRed)
+{
+    CHECK_EQUAL(RED, runTrafficLight()); // This checks that the traffic light starts in RED.
+}

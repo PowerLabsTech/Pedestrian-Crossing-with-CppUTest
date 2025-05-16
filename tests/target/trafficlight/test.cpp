@@ -83,3 +83,27 @@ TEST(TrafficLightGroup, ButtonPressOnYellowOrRed)
     // Simulate the pedestrian button press during RED
     CHECK_FALSE(trafficLightButtonPressed(true, RED));
 }
+
+TEST(TrafficLightGroup, NoDirectJumps)
+{
+    // 1. Direct jump from GREEN to RED should not occur.
+    setTrafficLightState(GREEN);
+    CHECK_EQUAL(GREEN, runTrafficLight()); // Confirm we are at GREEN.
+    setTrafficLightState(RED);              // Attempt an illegal jump.
+    // Expect that the system does not transition to RED.
+    CHECK_EQUAL(GREEN, runTrafficLight());
+
+    // 2. Direct jump from YELLOW to GREEN should not occur.
+    setTrafficLightState(YELLOW);
+    CHECK_EQUAL(YELLOW, runTrafficLight()); // Confirm we are at YELLOW.
+    setTrafficLightState(GREEN);            // Attempt an illegal jump.
+    // Expect that the system does not transition to GREEN.
+    CHECK_EQUAL(YELLOW, runTrafficLight());
+
+    // 3. Direct jump from RED to YELLOW should not occur.
+    setTrafficLightState(RED);
+    CHECK_EQUAL(RED, runTrafficLight()); // Confirm we start at RED.
+    setTrafficLightState(YELLOW);         // Attempt an illegal jump.
+    // Expect that the system does not transition to YELLOW.
+    CHECK_EQUAL(RED, runTrafficLight());
+}

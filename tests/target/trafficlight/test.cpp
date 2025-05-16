@@ -3,9 +3,16 @@
 #include "CppUTest/TestHarness.h"
 #include "traffic_light.h"
 
+// Function overload to simulate button press
 bool trafficLightButtonPressed(bool simulatePressed, traffic_light_state_t currentState)
 {
-    return false;
+    if (simulatePressed && currentState == GREEN)
+    {
+        return true;
+    } else
+    {
+        return false;
+    }
 }
 
 // Create a test group
